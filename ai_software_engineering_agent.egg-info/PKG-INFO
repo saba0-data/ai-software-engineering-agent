@@ -1,8 +1,0 @@
-Metadata-Version: 2.4
-Name: ai-software-engineering-agent
-Version: 0.1.0
-Summary: Production-style multi-agent platform for software engineering workflows
-Requires-Python: >=3.11
-Requires-Dist: fastapi[standard]
-Requires-Dist: pydantic-settings>=2.0.0
-Requires-Dist: openai>=1.0.0
