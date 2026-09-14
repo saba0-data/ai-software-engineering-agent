@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.api.routes.health import router as health_router
+from app.api.routes.planner import router as planner_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 
@@ -25,6 +26,12 @@ def create_app() -> FastAPI:
         health_router,
         prefix="/api/v1",
         tags=["Health"],
+    )
+
+    application.include_router(
+    planner_router,
+    prefix="/api/v1",
+    tags=["Planner"],
     )
 
     return application
