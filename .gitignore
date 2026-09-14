@@ -17,3 +17,4 @@ htmlcov/
 # IDE
 .vscode/
 .idea/
+*.egg-info/
