@@ -1,370 +1,313 @@
-AI Software Engineering Agent Platform
+#  AI Software Engineering Agent Platform
 
-A production-style multi-agent platform for automating software engineering workflows using Python, LangGraph, FastAPI, and LLMs.
+> A production-style multi-agent AI platform that automates the software engineering workflow using **Python, LangGraph, FastAPI, and LLMs**.
 
-The platform accepts a software requirement and orchestrates specialized AI agents to create a development plan, generate code, create test cases, and evaluate the implementation.
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)]()
+[![FastAPI](https://img.shields.io/badge/FastAPI-API-green.svg)]()
+[![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-orange.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-Pytest-success.svg)]()
 
-Features
+---
 
-Multi-agent workflow orchestration using LangGraph
+##  Overview
 
-Planner Agent for requirement analysis and software planning
+Building software involves multiple stages: understanding requirements, planning the implementation, writing code, creating tests, and evaluating the final result.
 
-Coder Agent for generating application code
+This project automates that workflow using a **multi-agent architecture**.
 
-Tester Agent for generating test cases
+A user submits a software requirement, and specialized AI agents collaborate to:
 
-Evaluator Agent for evaluating generated implementations
+1.  Analyze the requirement
+2.  Create a development plan
+3.  Generate application code
+4.  Generate test cases
+5.  Evaluate the implementation
 
-LLM provider abstraction
+The agents are orchestrated using **LangGraph**, while **FastAPI** exposes the platform through REST APIs.
 
-Mock and OpenAI LLM providers
+---
 
-FastAPI REST API
+##  Architecture
 
-Interactive Swagger documentation
+```text
+                    ┌──────────────────┐
+                    │ User Requirement │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │   Planner Agent  │
+                    │ Requirement → Plan│
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │    Coder Agent   │
+                    │ Plan → Code      │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │   Tester Agent   │
+                    │ Code → Test Cases│
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │ Evaluator Agent  │
+                    │ Validate Output  │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │  Final Response  │
+                    └──────────────────┘
+```
 
-Shared agent state management
+---
 
-Async agent execution
+##  Features
 
-Automated testing with Pytest
+-  Multi-agent workflow orchestration using **LangGraph**
+-  **Planner Agent** for requirement analysis and software planning
+-  **Coder Agent** for generating application code
+-  **Tester Agent** for generating test cases
+-  **Evaluator Agent** for evaluating generated implementations
+-  REST APIs built with **FastAPI**
+-  LLM provider abstraction
+-  Support for mock and OpenAI-based LLM providers
+-  Automated testing using **Pytest**
+-  Code quality checks using **Ruff**
+-  Interactive API documentation with **Swagger UI**
 
-Code quality checks with Ruff
+---
 
-Modular and extensible architecture
+##  Multi-Agent Workflow
 
-Environment-based configuration
+| Agent | Responsibility |
+|---|---|
+|  Planner Agent | Analyzes requirements and creates a software development plan |
+|  Coder Agent | Generates application code based on the development plan |
+|  Tester Agent | Generates test cases for the implementation |
+|  Evaluator Agent | Evaluates generated code and determines whether the implementation passes |
 
-Architecture
+---
 
-                         USER REQUIREMENT
-                                |
-                                v
-                    +-----------------------+
-                    |    PLANNER AGENT      |
-                    |                       |
-                    | Analyze requirements  |
-                    | Create development    |
-                    | plan and file list    |
-                    +-----------+-----------+
-                                |
-                                v
-                    +-----------------------+
-                    |     CODER AGENT       |
-                    |                       |
-                    | Generate application  |
-                    | code for planned      |
-                    | files                 |
-                    +-----------+-----------+
-                                |
-                                v
-                    +-----------------------+
-                    |    TESTER AGENT       |
-                    |                       |
-                    | Analyze generated     |
-                    | code and generate     |
-                    | test cases            |
-                    +-----------+-----------+
-                                |
-                                v
-                    +-----------------------+
-                    |   EVALUATOR AGENT     |
-                    |                       |
-                    | Evaluate generated    |
-                    | implementation and    |
-                    | return PASS / FAIL    |
-                    +-----------+-----------+
-                                |
-                                v
-                           FINAL RESULT
+##  Tech Stack
 
-Technology Stack
+### Backend
 
-Technology
+- Python
+- FastAPI
+- Pydantic
+- Uvicorn
 
-Purpose
+### AI & Agent Framework
 
-Python
+- LangGraph
+- LLM Providers
+- OpenAI API
 
-Core application development
+### Testing & Quality
 
-LangGraph
+- Pytest
+- Pytest-Asyncio
+- Ruff
 
-Multi-agent workflow orchestration
+---
 
-FastAPI
+##  Project Structure
 
-REST API framework
-
-LLMs
-
-AI-powered planning and code generation
-
-Pydantic
-
-Request and response validation
-
-Pytest
-
-Automated testing
-
-Ruff
-
-Code quality and linting
-
-Uvicorn
-
-ASGI application server
-
-LangSmith
-
-Agent tracing and observability support
-
-Project Structure
-
+```text
 ai-software-engineering-agent/
-|
-+-- app/
-|   |
-|   +-- agents/
-|   |   +-- __init__.py
-|   |   +-- planner.py
-|   |   +-- coder.py
-|   |   +-- tester.py
-|   |   +-- evaluator.py
-|   |
-|   +-- api/
-|   |   +-- routes/
-|   |       +-- __init__.py
-|   |       +-- health.py
-|   |       +-- planner.py
-|   |
-|   +-- core/
-|   |   +-- __init__.py
-|   |   +-- config.py
-|   |   +-- logging.py
-|   |
-|   +-- graph/
-|   |   +-- __init__.py
-|   |   +-- state.py
-|   |   +-- workflow.py
-|   |
-|   +-- llm/
-|   |   +-- __init__.py
-|   |   +-- base.py
-|   |   +-- factory.py
-|   |   +-- providers/
-|   |       +-- __init__.py
-|   |       +-- mock_provider.py
-|   |       +-- openai_provider.py
-|   |
-|   +-- main.py
-|
-+-- tests/
-|   +-- __init__.py
-|   +-- test_health.py
-|   +-- test_llm.py
-|   +-- test_planner.py
-|   +-- test_planner_api.py
-|   +-- test_coder.py
-|   +-- test_tester.py
-|   +-- test_evaluator.py
-|   +-- test_state.py
-|   +-- test_workflow.py
-|
-+-- .env.example
-+-- .gitignore
-+-- pyproject.toml
-+-- README.md
+│
+├── app/
+│   │
+│   ├── agents/
+│   │   ├── planner.py
+│   │   ├── coder.py
+│   │   ├── tester.py
+│   │   └── evaluator.py
+│   │
+│   ├── api/
+│   │   └── routes/
+│   │       ├── health.py
+│   │       └── planner.py
+│   │
+│   ├── core/
+│   │   ├── config.py
+│   │   └── logging.py
+│   │
+│   ├── graph/
+│   │   ├── state.py
+│   │   └── workflow.py
+│   │
+│   ├── llm/
+│   │   ├── providers/
+│   │   │   ├── mock_provider.py
+│   │   │   └── openai_provider.py
+│   │   │
+│   │   ├── base.py
+│   │   └── factory.py
+│   │
+│   └── main.py
+│
+├── tests/
+│   ├── test_health.py
+│   ├── test_llm.py
+│   ├── test_planner.py
+│   ├── test_coder.py
+│   ├── test_tester.py
+│   ├── test_evaluator.py
+│   └── test_workflow.py
+│
+├── .env.example
+├── .gitignore
+├── pyproject.toml
+└── README.md
+```
 
-Multi-Agent Workflow
+---
 
-The application uses specialized AI agents that communicate through a shared workflow state.
+##  Installation
 
-1. Planner Agent
+### 1️ Clone the Repository
 
-The Planner Agent receives a software requirement and creates a structured software development plan.
+```bash
+git clone https://github.com/saba0-data/ai-software-engineering-agent.git
+```
 
-Responsibilities
+```bash
+cd ai-software-engineering-agent
+```
 
-Analyze software requirements
+---
 
-Break requirements into implementation tasks
+### 2️ Create a Virtual Environment
 
-Identify required application files
+```bash
+python -m venv .venv
+```
 
-Create a development strategy
+### Windows
 
-Example Input
+```bash
+.venv\Scripts\activate
+```
 
-Build a REST API for managing tasks with user authentication and CRUD operations.
+### macOS / Linux
 
-Example Output
+```bash
+source .venv/bin/activate
+```
 
-{
-  "plan": [
-    "Analyze the software requirements",
-    "Design the application architecture",
-    "Define data models and validation",
-    "Implement the API endpoints",
-    "Write automated tests"
-  ],
-  "files": [
-    "app/main.py",
-    "app/models.py",
-    "app/api/routes.py",
-    "tests/test_api.py"
-  ]
-}
+---
 
-2. Coder Agent
+### 3️ Install Dependencies
 
-The Coder Agent receives the software requirement, development plan, and identified files.
+```bash
+pip install -e ".[dev]"
+```
 
-Responsibilities
+Or install the required packages manually:
 
-Generate Python application code
+```bash
+pip install fastapi uvicorn langgraph pytest pytest-asyncio ruff
+```
 
-Generate code for planned files
+---
 
-Follow the software development plan
+##  Environment Configuration
 
-Return structured generated code
+Create a `.env` file:
 
-Example output:
+```bash
+cp .env.example .env
+```
 
-{
-  "generated_code": {
-    "app/main.py": "Generated Python code",
-    "app/models.py": "Generated model code"
-  }
-}
+Example configuration:
 
-3. Tester Agent
+```env
+LLM_PROVIDER=mock
+OPENAI_API_KEY=your_api_key_here
+```
 
-The Tester Agent analyzes the generated implementation and creates test scenarios.
+The project supports a mock LLM provider for development and testing.
 
-Responsibilities
+---
 
-Analyze generated code
+##  Running the Application
 
-Generate test cases
+Start the FastAPI server:
 
-Identify validation scenarios
+```bash
+uvicorn app.main:app --reload
+```
 
-Support automated software testing workflows
+The application will be available at:
 
-Example output:
+```text
+http://127.0.0.1:8000
+```
 
-{
-  "test_cases": [
-    "test_task_model_creation",
-    "test_create_task",
-    "test_get_task",
-    "test_update_task",
-    "test_delete_task"
-  ]
-}
+---
 
-4. Evaluator Agent
+##  API Documentation
 
-The Evaluator Agent evaluates the generated implementation.
+FastAPI automatically generates interactive API documentation.
 
-Responsibilities
+Open:
 
-Review generated code
+```text
+http://127.0.0.1:8000/docs
+```
 
-Review generated test cases
+Swagger UI allows you to test the API directly from your browser.
 
-Evaluate implementation output
+---
 
-Return PASS or FAIL status
+##  API Endpoints
 
-Example output:
+### Health Check
 
-{
-  "evaluation": "PASS"
-}
-
-Agent State
-
-The agents communicate through a shared state object.
-
-{
-    "requirement": "",
-    "plan": [],
-    "files": [],
-    "generated_code": {},
-    "test_cases": [],
-    "evaluation": "",
-    "retry_count": 0,
-    "errors": []
-}
-
-This allows each agent to access the output of previous agents and contribute to the overall software engineering workflow.
-
-LLM Provider Architecture
-
-The application uses a provider abstraction layer to avoid tightly coupling agent logic to a specific LLM provider.
-
-                 +------------------+
-                 |   Application    |
-                 +--------+---------+
-                          |
-                          v
-                 +------------------+
-                 |   LLM Factory    |
-                 +--------+---------+
-                          |
-              +-----------+-----------+
-              |                       |
-              v                       v
-     +-----------------+     +-----------------+
-     |  Mock Provider  |     | OpenAI Provider |
-     +-----------------+     +-----------------+
-
-The provider abstraction allows new LLM providers to be added without changing the core agent logic.
-
-Supported providers include:
-
-Mock Provider
-
-OpenAI Provider
-
-API
-
-The application exposes REST APIs using FastAPI.
-
-Health Check
-
+```http
 GET /api/v1/health
+```
 
 Example response:
 
+```json
 {
   "status": "healthy"
 }
+```
 
-Create Software Development Plan
+---
 
+### Create Software Development Plan
+
+```http
 POST /api/v1/plan
+```
 
-Request:
+Example request:
 
+```json
 {
   "requirement": "Build a REST API for managing tasks with user authentication and CRUD operations."
 }
+```
 
 Example response:
 
+```json
 {
   "requirement": "Build a REST API for managing tasks with user authentication and CRUD operations.",
   "plan": [
     "Analyze the software requirements",
     "Design the application architecture",
-    "Define data models and validation",
-    "Implement the API endpoints",
+    "Implement data models and validation",
+    "Implement API endpoints",
     "Write automated tests"
   ],
   "files": [
@@ -373,251 +316,173 @@ Example response:
     "app/api/routes.py",
     "tests/test_api.py"
   ],
+  "generated_code": {},
   "errors": []
 }
+```
 
-API Documentation
+---
 
-FastAPI provides interactive Swagger documentation.
+##  Workflow Execution
 
-After starting the application, open:
+The multi-agent workflow processes a software requirement through multiple stages.
 
-http://127.0.0.1:8000/docs
+```text
+Requirement
+    │
+    ▼
+Planner Agent
+    │
+    ▼
+Coder Agent
+    │
+    ▼
+Tester Agent
+    │
+    ▼
+Evaluator Agent
+    │
+    ▼
+Final Result
+```
 
-Swagger UI can be used to:
+Each agent receives the shared workflow state and contributes its output to the next stage.
 
-Test API endpoints
+---
 
-Send software requirements
-
-Inspect request schemas
-
-Inspect response schemas
-
-View workflow results
-
-Installation
-
-1. Clone the Repository
-
-git clone https://github.com/saba0-data/ai-software-engineering-agent.git
-cd ai-software-engineering-agent
-
-2. Create a Virtual Environment
-
-Windows
-
-python -m venv .venv
-.venv\Scripts\activate
-
-Linux/macOS
-
-python3 -m venv .venv
-source .venv/bin/activate
-
-3. Install Dependencies
-
-pip install -e .
-
-Install development dependencies:
-
-pip install pytest pytest-asyncio httpx ruff
-
-4. Configure Environment Variables
-
-Copy the example environment file:
-
-copy .env.example .env
-
-Example configuration:
-
-LLM_PROVIDER=mock
-OPENAI_API_KEY=your_api_key
-
-Running the Application
-
-Start the FastAPI server:
-
-uvicorn app.main:app --reload
-
-The application will be available at:
-
-http://127.0.0.1:8000
-
-Interactive API documentation:
-
-http://127.0.0.1:8000/docs
-
-Running Tests
+##  Running Tests
 
 Run all tests:
 
+```bash
 pytest
+```
 
-Run tests with verbose output:
+Run a specific test:
 
-pytest -v
+```bash
+pytest tests/test_planner.py -v
+```
 
-The project includes tests for:
+Example output:
 
-Health API
+```text
+======================== test session starts ========================
 
-LLM provider abstraction
+tests/test_health.py .
+tests/test_llm.py .
+tests/test_planner.py .
+tests/test_coder.py .
+tests/test_tester.py .
+tests/test_evaluator.py .
+tests/test_workflow.py .
 
-Planner Agent
+========================= passed =========================
+```
 
-Planner API
+---
 
-Coder Agent
-
-Tester Agent
-
-Evaluator Agent
-
-Agent State
-
-LangGraph workflow
-
-Code Quality
+##  Code Quality
 
 Run Ruff:
 
+```bash
 ruff check .
+```
 
 Automatically fix supported issues:
 
+```bash
 ruff check . --fix
+```
 
-Key Engineering Concepts Demonstrated
+---
 
-AI Engineering
+##  LLM Provider Architecture
 
-LLM integration
+The application uses an abstraction layer for LLM providers.
 
-Prompt engineering
+```text
+                ┌───────────────────┐
+                │   Agent Layer     │
+                └─────────┬─────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │  LLM Interface    │
+                └─────────┬─────────┘
+                          │
+                ┌─────────┴─────────┐
+                ▼                   ▼
+       ┌────────────────┐   ┌────────────────┐
+       │ Mock Provider  │   │ OpenAI Provider│
+       └────────────────┘   └────────────────┘
+```
 
-Multi-agent architecture
+This design makes it easier to switch LLM providers without modifying agent logic.
 
-Agent orchestration
+---
 
-Context passing
+##  Key Engineering Concepts Demonstrated
 
-Structured LLM output
+This project demonstrates:
 
-AI evaluation
+- Multi-agent system architecture
+- Agent workflow orchestration
+- State management
+- REST API development
+- Asynchronous Python programming
+- LLM provider abstraction
+- API design
+- Automated testing
+- Dependency management
+- Code quality tooling
+- Modular software architecture
 
-Backend Engineering
+---
 
-Python
+##  Future Improvements
 
-FastAPI
+Potential improvements include:
 
-REST APIs
+-  Automatic retry workflows
+-  More advanced agent reasoning
+-  Workflow monitoring and observability
+-  Persistent workflow storage
+-  Docker containerization
+-  Cloud deployment
+-  Authentication and authorization
+-  Agent performance metrics
+-  Human-in-the-loop approval
+-  Support for additional LLM providers
 
-Async programming
+---
 
-Pydantic validation
+##  Author
 
-Modular architecture
+**Saba Sulthana**
 
-Agent Orchestration
+Aspiring Software Engineer | Python | AI | Data Science
 
-LangGraph workflows
+🔗 GitHub: https://github.com/saba0-data
 
-Shared agent state
+---
 
-Sequential agent execution
+##  Why This Project?
 
-State management
+This project was built to demonstrate how modern AI agents can automate parts of the software engineering lifecycle.
 
-Retry tracking
+Instead of relying on a single LLM prompt, the system separates responsibilities between specialized agents and orchestrates them through a structured workflow.
 
-Error handling
+The architecture focuses on:
 
-Software Engineering
+- Separation of concerns
+- Modular design
+- Testability
+- Extensibility
+- API-first development
+- Multi-agent orchestration
 
-Automated testing
+---
 
-Pytest
-
-Code linting
-
-Ruff
-
-Environment configuration
-
-Version control
-
-Modular project design
-
-Platform Architecture
-
-LLM provider abstraction
-
-Platform-agnostic architecture
-
-Extensible provider design
-
-Reusable agent components
-
-Future Improvements
-
-Human-in-the-loop approval workflows
-
-Tool and function calling
-
-RAG-based codebase context
-
-GitHub repository integration
-
-Automated code execution sandbox
-
-Retry and agent recovery strategies
-
-Agent observability dashboards
-
-LangSmith tracing integration
-
-Docker containerization
-
-CI/CD with GitHub Actions
-
-Authentication and access control
-
-Agent evaluation datasets
-
-Additional LLM providers
-
-Why This Project
-
-Modern software engineering teams are increasingly using AI systems to assist with:
-
-Requirement analysis
-
-Software planning
-
-Code generation
-
-Testing
-
-Code evaluation
-
-Development workflow automation
-
-Instead of using a single chatbot, this project separates software engineering responsibilities into specialized AI agents.
-
-Each agent performs a specific responsibility and communicates through a shared workflow state orchestrated using LangGraph.
-
-This architecture demonstrates how AI agents can be integrated into structured software engineering workflows while maintaining modularity, extensibility, and platform flexibility.
-
-Author
-
-Saba Sulthana
-
-GitHub: https://github.com/saba0-data
-
-Project Repository: https://github.com/saba0-data/ai-software-engineering-agent
-
-License
-
-This project is created for educational and portfolio purposes.
+⭐ If you found this project interesting, consider starring the repository!
